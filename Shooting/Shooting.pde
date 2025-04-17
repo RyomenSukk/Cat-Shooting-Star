@@ -112,6 +112,12 @@ void drawGame() {
   currentBGIndex = (frameCount / 10) % bgCount;
   image(backgrounds[currentBGIndex], 0, 0, width, height);
 
+  // Shooting logic for automatic shooting
+  if (millis() - lastShotTime > player.shotSpeed) {
+    player.shoot();
+    lastShotTime = millis();
+  }
+
   enemySpeed = 4 + (score / 30);
   int enemyCount = 1 + (score / 30);
   if (frameCount % 60 == 0) {
@@ -227,12 +233,6 @@ void keyPressed() {
   if (keyCode == RIGHT) moveRight = true;
   if (keyCode == UP) moveUp = true;
   if (keyCode == DOWN) moveDown = true;
-  if (key == ' ') {
-    if (millis() - lastShotTime > player.shotSpeed) {
-      player.shoot();
-      lastShotTime = millis();
-    }
-  }
 }
 
 void keyReleased() {
